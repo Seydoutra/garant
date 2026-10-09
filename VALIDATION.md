@@ -38,4 +38,4 @@ Vite avertit de la taille du fragment 3D (environ 883 ko avant compression, 239 
 
 ## Déploiement et périmètre
 
-Workflow GitHub Pages préparé, non exécuté sur GitHub dans cette session. Aucun dépôt distant fourni. Coordonnées, URL de production et pages légales restent à renseigner. Aucun backend, signature réelle ou certification cryptographique. Le QR ouvre seulement la simulation locale de cette page.
+Dépôt public `Seydoutra/garant` créé et sources poussées sur `main`. Workflow GitHub Pages exécuté : installation, tests, build et déploiement réussis (exécution 37970785426). Site : https://seydoutra.github.io/garant/. URL de production configurée pour le canonical. Coordonnées et pages légales restent à renseigner. Aucun backend, signature réelle ou certification cryptographique. Le QR ouvre seulement la simulation locale de cette page.

@@ -3,7 +3,7 @@ export const settings = {
   CONTACT_EMAIL: "",
   GITHUB_REPOSITORY_NAME: "garant",
   VERIFICATION_DOMAIN: "",
-  PRODUCTION_SITE_URL: "",
+  PRODUCTION_SITE_URL: "https://seydoutra.github.io/garant/",
   LEGAL_URL: "",
   PRIVACY_URL: "",
 };

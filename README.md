@@ -81,7 +81,11 @@ Build local avec un sous-chemin :
 VITE_BASE_PATH=/mon-depot/ pnpm build
 ```
 
-Aucune URL de production n’est inventée. Cette livraison ne crée pas de dépôt distant et ne publie pas elle-même sur GitHub.
+Dépôt actif : https://github.com/Seydoutra/garant
+
+Site publié : https://seydoutra.github.io/garant/
+
+GitHub Pages est configuré pour GitHub Actions. Les push sur `main` publient automatiquement le site après les tests et le build.
 
 ## Qualité et limites
 
