@@ -29,6 +29,7 @@ import {
 import { content as c, settings, demoDocuments } from "./content";
 import { HeroVisual } from "./components/HeroVisual";
 import { Verification } from "./components/Verification";
+import { SecurityShowcase } from "./components/SecurityShowcase";
 function Logo() {
   return (
     <a className="logo" href="#accueil">
@@ -111,11 +112,18 @@ function App() {
       : /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(settings.CONTACT_EMAIL)
         ? `mailto:${settings.CONTACT_EMAIL}`
         : null;
+  const previewCode = new URLSearchParams(window.location.search).get("apercu");
+  const previewIndex = c.securityScreens.panels.findIndex(panel => panel.code === previewCode);
+  if (previewIndex >= 0) return <main className="screen-export"><SecurityShowcase initialIndex={previewIndex}/></main>;
   return (
     <MotionConfig reducedMotion="user">
       <a className="skip" href="#main">
         {c.ui.skip}
       </a>
+      <div className="institutional-bar">
+        <span>{c.institutional.masthead}</span>
+        <span>{c.institutional.descriptor}</span>
+      </div>
       <header>
         <div className="nav-wrap">
           <Logo />
@@ -203,6 +211,7 @@ function App() {
             </a>
           </div>
         </section>
+        <SecurityShowcase />
         <Section id="pourquoi" kicker={c.kickers[0]} title={c.problems.title}>
           <div className="cards three">
             {c.problems.items.map(([title, body], i) => {

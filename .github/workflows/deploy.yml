@@ -1,4 +1,4 @@
-name: Publier GARANT sur GitHub Pages
+name: Publish GARANT landing
 on:
   push:
     branches: [main]
@@ -20,18 +20,17 @@ jobs:
           version: 11.25.0
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm test
-      - run: pnpm build
+      - run: pnpm --filter @garant/landing test
+      - run: pnpm --filter @garant/landing build
         env:
           GITHUB_REPOSITORY_NAME: ${{ github.event.repository.name }}
-          VITE_BASE_PATH: ${{ vars.VITE_BASE_PATH }}
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: apps/landing/dist
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -39,6 +38,5 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Déployer
+      - uses: actions/deploy-pages@v4
         id: deployment
-        uses: actions/deploy-pages@v4

@@ -1,2 +1,18 @@
+packages:
+  - apps/*
+  - packages/*
 allowBuilds:
   esbuild: true
+  sharp: true
+  unrs-resolver: true
+verifyDepsBeforeRun: false
+overrides:
+  typescript-eslint: 8.70.1
+minimumReleaseAgeExclude:
+  - '@turbo/darwin-64@2.11.8'
+  - '@turbo/darwin-arm64@2.11.8'
+  - '@turbo/linux-64@2.11.8'
+  - '@turbo/linux-arm64@2.11.8'
+  - '@turbo/windows-64@2.11.8'
+  - '@turbo/windows-arm64@2.11.8'
+  - turbo@2.11.8

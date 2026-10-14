@@ -1,92 +1,70 @@
-# GARANT Launch V1
+# GARANT Socle MVP
 
-Landing page statique en français : vitrine et simulation documentaire locale. Aucun document réel n’est signé ni authentifié. Toutes les personnes et organisations de démonstration sont fictives.
+Monorepo local du MVP GARANT, tâche 01. Les interfaces d’administration et de vérification sont des shells **non connectés**. Aucune authentification, connexion métier à la base, signature, génération PDF, révocation ou émission SMS n’est implémentée à cette étape.
 
-## Démarrer
+La vitrine existante est conservée dans `apps/landing`, avec sa démonstration fictive et une nouvelle présentation institutionnelle. Ses aperçus de dispositifs de sécurité représentent des capacités prévues, pas une application de certification en production.
 
-Node.js 22.12+ recommandé. Les versions installées sont figées dans `pnpm-lock.yaml`.
+## Prérequis
+
+Node 24, pnpm 11.25.0. PostgreSQL, Docker et les identifiants Supabase ou Nimba ne sont pas nécessaires à la tâche 01. Le profil souverain complet, Auth, Storage et Docker restent à implémenter dans leurs tâches dédiées ; un PostgreSQL seul ne les remplace pas.
+
+## Installation et vérification
 
 ```sh
 corepack enable
 corepack prepare pnpm@11.25.0 --activate
 pnpm install --frozen-lockfile
-pnpm dev
+pnpm lint
+pnpm typecheck
 pnpm test
 pnpm build
-pnpm preview
 ```
 
-Les scripts sont également compatibles npm : `npm install`, `npm run dev`, `npm test`, `npm run build`, `npm run preview`. Le workflow utilise pnpm et son verrou ; après une modification de dépendances avec npm, régénérer aussi le verrou pnpm.
+`pnpm test` exécute les tests du socle et les trois scénarios fictifs de la landing. Les suites futures crypto, RLS, PDF, SMS et bout en bout ne sont pas disponibles. Elles ne sont ni simulées ni annoncées comme réussies.
 
-## Architecture et arborescence
-
-```text
-garant/
-├── .github/workflows/deploy.yml
-├── public/favicon.svg
-├── src/
-│   ├── components/
-│   │   ├── Document.tsx
-│   │   ├── HeroVisual.tsx
-│   │   ├── Scene.tsx
-│   │   └── Verification.tsx
-│   ├── lib/
-│   │   ├── verification.ts
-│   │   └── verification.test.ts
-│   ├── content.ts
-│   ├── App.tsx
-│   ├── main.tsx
-│   └── index.css
-├── index.html
-├── package.json
-├── pnpm-lock.yaml
-├── pnpm-workspace.yaml
-├── tsconfig.json
-├── vite.config.ts
-└── README.md
-```
-
-React + TypeScript strict, Vite, Tailwind CSS 4, Motion, Lucide. `content.ts` regroupe textes métier, paramètres et jeux de données. `verification.ts` ne fait qu’une recherche locale. `Verification.tsx` gère le formulaire, le délai de scan de 1,5 seconde et l’annonce accessible du résultat. `App.tsx` assemble les 13 parties : navigation, hero, problème, fonctionnement, démonstration, fonctionnalités, publics, recruteur, sécurité, tarifs, FAQ, contact et footer.
-
-Le hero charge React Three Fiber / Drei après un délai, uniquement à partir de 1024 px, avec WebGL disponible et sans réduction des animations. Le document 3D utilise une texture Canvas locale, avec un vrai QR qui dirige vers la démo fictive de cette même page. Le repli HTML/CSS est utilisé sur mobile, sans WebGL, avec animations réduites ou en cas d’erreur de chargement. Les polices sont auto-hébergées. Aucun service payant, secret ou backend.
-
-## Personnaliser
-
-Dans `src/content.ts`, modifier :
-
-| Paramètre | Valeur attendue |
-| --- | --- |
-| `WHATSAPP_NUMBER` | Numéro international en chiffres, sans `+`, espaces ni ponctuation |
-| `CONTACT_EMAIL` | E-mail de contact réel |
-| `GITHUB_REPOSITORY_NAME` | Nom du dépôt (défaut : `garant`) |
-| `VERIFICATION_DOMAIN` | Réservé au futur portail ; volontairement inutilisé pour cette simulation locale |
-| `PRODUCTION_SITE_URL` | URL publique absolue, pour le canonical après confirmation du domaine |
-| `LEGAL_URL` | Lien vers les mentions légales complètes |
-| `PRIVACY_URL` | Lien vers la politique de confidentialité complète |
-
-Les contacts vides ne génèrent aucun lien invalide : les boutons affichent « Configuration nécessaire ». Les liens légaux restent des libellés à compléter tant que les URLs ne sont pas renseignées. Les métadonnées de partage sont centralisées dans `content.ts` et injectées dans `index.html` au build. Ne pas présenter les capacités prévues comme déjà disponibles en production.
-
-## Publier sur GitHub Pages
-
-1. Créer le dépôt GitHub et y placer **le contenu de ce dossier**, avec `.github` à sa racine.
-2. Pousser sur la branche `main`.
-3. Dans **Settings → Pages → Build and deployment**, sélectionner **GitHub Actions**.
-4. Le workflow installe les dépendances verrouillées, exécute les tests et le build, puis publie `dist` avec les actions officielles GitHub Pages.
-5. Le nom réel du dépôt est transmis automatiquement à Vite. Pour un site de type `utilisateur.github.io` ou un domaine à la racine, créer la variable de dépôt `VITE_BASE_PATH` avec la valeur `/`.
-6. Configurer les coordonnées, liens légaux et `PRODUCTION_SITE_URL`, puis pousser à nouveau.
-
-Build local avec un sous-chemin :
+## Démarrer localement
 
 ```sh
-VITE_BASE_PATH=/mon-depot/ pnpm build
+pnpm dev:web       # Administration : http://127.0.0.1:3000
+pnpm dev:verifier  # Shell public : http://127.0.0.1:3001/v
+pnpm dev:landing   # Landing : URL affichée par Vite
 ```
 
-Dépôt actif : https://github.com/Seydoutra/garant
+`pnpm dev` lance les trois applications UI ensemble. Le worker et le publisher ne sont pas lancés. Leurs scripts `start` échouent explicitement avec un code 1 tant que les tâches correspondantes ne sont pas implémentées.
 
-Site publié : https://seydoutra.github.io/garant/
+La route `/v` de Next indique le lien vers le shell autonome local. La configuration de reverse proxy entre domaines fait partie du déploiement futur.
 
-GitHub Pages est configuré pour GitHub Actions. Les push sur `main` publient automatiquement le site après les tests et le build.
+## Arborescence
 
-## Qualité et limites
+```text
+apps/
+  landing/       Vitrine Vite préservée et démonstration fictive
+  web/           Next.js App Router, administration non connectée
+  verifier/      Shell public Vite TypeScript, route /v
+  worker/        Shell Node TypeScript non opérationnel
+  publisher/     Shell Node TypeScript non opérationnel
+packages/
+  seal/          Contrat non implémenté
+  pdf/           Contrat non implémenté
+  shortcode/     Contrat non implémenté
+  db/            Dépendances Drizzle/pg, aucune connexion
+ tests/          Tests réels du socle
+ docs/           Décisions et avancement
+ garant-mvp-spec/ Références disponibles et tâche 01
+```
 
-Les mesures effectivement réalisées sont consignées dans `VALIDATION.md`. Le build émet un avertissement sur la taille du fragment 3D : il est chargé séparément et uniquement sur les appareils éligibles. Aucun score Lighthouse 90+ n’est revendiqué sans mesure. L’authentification documentaire, la signature numérique, l’émission, la révocation et le stockage sécurisé réels sont hors de cette version.
+## Configuration
+
+`.env.example` décrit les variables attendues à terme, sans valeurs secrètes. Seul `APP_MODE=shell` est utilisé dans cette tâche. Une autre valeur est rejetée par Zod. Aucune clé privée n’est requise pour développer ce socle.
+
+Les contenus de la landing et ses paramètres sont dans `apps/landing/src/content.ts`. WhatsApp, e-mail et liens légaux restent non configurés. Les paramètres de la future plateforme ne sont pas connectés à cette vitrine.
+
+## CI et publication
+
+`.github/workflows/ci.yml` installe avec verrou, puis exécute lint, typecheck, tests et builds. Aucune production n’est contactée. Le workflow Pages publie uniquement `apps/landing/dist` à chaque push sur `main`, ou sur déclenchement manuel. La mise à jour GitHub et la publication de la landing institutionnelle ont été demandées le 14 octobre 2026, après la validation locale de la tâche 01. Site : https://seydoutra.github.io/garant/. Les autres applications restent des shells non déployés.
+
+## État exact
+
+Voir `docs/IMPLEMENTATION_STATUS.md` et `docs/VALIDATION.md`. Le dossier de spécification complète évoqué dans le prompt n’était pas présent intégralement au début de cette tâche. Les sources techniques originales et les références disponibles sont conservées ; elles ne sont pas présentées comme une migration validée ou un audit.
+
+La tâche 02 ne doit être entreprise que sur instruction. Elle nécessitera une migration candidate et une base isolée pour ses contrôles.

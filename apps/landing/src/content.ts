@@ -11,11 +11,121 @@ export const settings = {
 // « Faites de vos attestations une preuve, partout. »
 // « Une origine vérifiable. Une confiance qui circule. »
 export const content = {
+  institutional: {
+    masthead: "PROJET GARANT · GUINÉE",
+    descriptor: "Pour les établissements, les entreprises et les institutions",
+    status: "Vitrine de démonstration · plateforme en développement",
+  },
+  securityScreens: {
+    kicker: "DISPOSITIFS DE CONFIANCE",
+    title: "Comprendre ce qui sécurise un document.",
+    intro:
+      "Six dispositifs complémentaires prévus pour le MVP. Les écrans ci-dessous sont des interfaces illustratives : ils ne réalisent aucune authentification réelle.",
+    window: "GARANT · aperçu fonctionnel",
+    notice: "ÉCRAN ILLUSTRATIF — FONCTION NON IMPLÉMENTÉE",
+    record: "Institut Démo de Conakry",
+    holder: "Aminata Exemple",
+    reference: "GRT-7K4P-92X7",
+    date: "14/10/2026",
+    panels: [
+      {
+        code: "F1",
+        tab: "Cachet et QR",
+        title: "Un cachet vérifiable sur le document.",
+        description:
+          "Le QR prévu contient des données signées et conduit au vérificateur. La signature, l’identité de l’émetteur et le statut du document sont présentés séparément.",
+        screenTitle: "Vérification du cachet",
+        lines: [
+          ["Cachet électronique", "Ed25519 · profil COSE_Sign1 prévu"],
+          ["Organisation émettrice", "Institut Démo de Conakry"],
+          ["Signature cryptographique", "Vérificateur non implémenté"],
+          ["Statut du document", "Registre non connecté"],
+        ],
+        foot: "Sans synchronisation récente, la non-révocation ne pourra pas être confirmée.",
+      },
+      {
+        code: "F2",
+        tab: "Signature PDF",
+        title: "L’intégrité du fichier, contrôlée séparément.",
+        description:
+          "Le PDF cible sera signé en dernière étape. Sa signature détectera les modifications des octets couverts ; le statut métier restera consultable dans le registre GARANT.",
+        screenTitle: "Panneau de signature PDF",
+        lines: [
+          ["Document", "Attestation illustrative.pdf"],
+          ["Profil cible", "PAdES B-B"],
+          ["Certificat", "AC interne GARANT — prévue"],
+          ["Validation indépendante", "À réaliser avant toute production"],
+        ],
+        foot: "Une AC interne ne confère pas une reconnaissance automatique dans les lecteurs PDF.",
+      },
+      {
+        code: "F4",
+        tab: "Photo liée",
+        title: "Relier la photo au cachet électronique.",
+        description:
+          "La photo normalisée sera liée au cachet par son empreinte. Son accès public nécessitera une autorisation temporaire après vérification d’un cachet ou d’un code.",
+        screenTitle: "Contrôle de la photo du titulaire",
+        lines: [
+          ["Titulaire fictif", "Aminata Exemple"],
+          ["Photo normalisée prévue", "JPEG · 600 × 800"],
+          ["Comparaison d’empreinte", "Non implémentée"],
+          ["Accès temporaire prévu", "URL autorisée · 5 minutes"],
+        ],
+        foot: "La photo seule n’atteste pas l’identité ; le résultat d’empreinte devra être vérifié.",
+      },
+      {
+        code: "F5",
+        tab: "Code et SMS",
+        title: "Une voie de vérification pour les téléphones simples.",
+        description:
+          "Un code court contrôlé permettra de consulter le statut sur le web ou par SMS. Les réponses réelles dépendront de passerelles configurées et testées.",
+        screenTitle: "Aperçu de réponse SMS",
+        lines: [
+          ["Canal prévu", "Passerelle Android + Nimba"],
+          ["Référence illustrative", "GRT-7K4P-92X7"],
+          ["État de l’envoi", "Aucun SMS envoyé"],
+          ["Données transmises", "Sans photo ni date de naissance"],
+        ],
+        foot: "Le numéro de service sera communiqué après configuration. Aucun numéro fictif n’est affiché.",
+      },
+      {
+        code: "F6",
+        tab: "Sécurité visuelle",
+        title: "Des repères visuels propres à chaque document.",
+        description:
+          "Guilloches et microtexte seront générés de façon déterministe. Ces éléments sont dissuasifs : ils ne remplacent jamais une preuve cryptographique.",
+        screenTitle: "Aperçu documentaire de calibration",
+        lines: [
+          ["Fond de document", "Guilloches vectorielles prévues"],
+          ["Microtexte", "Nom fictif · référence illustrative"],
+          ["Impression et photocopie", "Calibration terrain nécessaire"],
+          ["Valeur probante", "Aucune preuve cryptographique"],
+        ],
+        foot: "Les tailles de QR et de microtexte devront être validées sur papier.",
+      },
+      {
+        code: "F8",
+        tab: "Révocation",
+        title: "Un statut suivi après l’émission.",
+        description:
+          "Une révocation définitive sera confirmée par un administrateur autorisé, puis inscrite dans le registre et les listes signées. Le motif détaillé restera privé.",
+        screenTitle: "Aperçu de document révoqué",
+        lines: [
+          ["Document fictif", "Attestation de travail"],
+          ["État illustré", "RÉVOQUÉ — scénario de démonstration"],
+          ["Date fictive", "14/10/2026"],
+          ["Motif détaillé", "Non exposé au public"],
+        ],
+        foot: "La révocation métier ne modifie pas un PDF déjà téléchargé.",
+      },
+    ],
+  },
+
   seo: {
     title: "GARANT — La confiance documentaire, depuis la Guinée",
     description:
-      "Découvrez GARANT, future plateforme de certification documentaire pour entreprises et cabinets RH. Essayez la vérification fictive d’une attestation.",
-    shareTitle: "GARANT — Vos documents parlent pour vous. Partout.",
+      "Découvrez GARANT, projet de plateforme de confiance documentaire pour établissements, entreprises et institutions. Essayez la vérification fictive d’une attestation.",
+    shareTitle: "GARANT — La confiance accompagne vos documents.",
     shareDescription:
       "Une preuve de confiance pour chaque document professionnel. Découvrez notre démonstration fictive.",
   },
@@ -32,28 +142,29 @@ export const content = {
     "10 / CONSTRUISONS LA CONFIANCE",
   ],
   brand: "GARANT",
-  signature: "Vos documents parlent pour vous. Partout.",
+  signature: "La confiance accompagne vos documents.",
   nav: [
     ["Accueil", "accueil"],
     ["Pourquoi GARANT", "pourquoi"],
     ["Fonctionnement", "fonctionnement"],
     ["Démonstration", "demonstration"],
     ["Fonctionnalités", "fonctionnalites"],
+    ["Dispositifs", "dispositifs"],
     ["Tarifs", "tarifs"],
     ["FAQ", "faq"],
   ],
   demoCta: "Demander une démo",
   verifyCta: "Vérifier un document",
-  eyebrow: "PLATEFORME DE CERTIFICATION DOCUMENTAIRE",
-  hero: "Chaque document professionnel mérite une preuve de confiance.",
+  eyebrow: "INFRASTRUCTURE DE CONFIANCE DOCUMENTAIRE",
+  hero: "Chaque document institutionnel mérite une preuve de confiance.",
   description:
-    "Émettez des attestations sécurisées, facilitez leur vérification par QR code et gardez le contrôle sur leur validité, depuis une plateforme unique.",
+    "GARANT prépare une nouvelle chaîne de confiance pour les diplômes, attestations et certificats. Une origine vérifiable, un statut consultable et des dispositifs adaptés aux documents imprimés.",
   indicators: [
     "Signature numérique",
     "Vérification par QR code",
     "Révocation contrôlée",
   ],
-  launch: "CONÇU EN GUINÉE · PENSÉ POUR ALLER PLUS LOIN",
+  launch: "GUINÉE · ÉTABLISSEMENTS · ENTREPRISES · INSTITUTIONS",
   future: "Capacité prévue · future plateforme",
   demoNotice: "DÉMONSTRATION — AUCUNE AUTHENTIFICATION RÉELLE",
   fictitious: "Données fictives · aucune certification réelle",

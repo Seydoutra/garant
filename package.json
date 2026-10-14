@@ -1,38 +1,32 @@
 {
-  "name": "garant-launch-v1",
-  "version": "1.0.0",
+  "name": "garant",
   "private": true,
-  "type": "module",
-  "scripts": {
-    "dev": "vite --host 127.0.0.1",
-    "build": "tsc --noEmit && vite build",
-    "preview": "vite preview --host 127.0.0.1",
-    "test": "vitest run"
+  "version": "0.1.0",
+  "packageManager": "pnpm@11.25.0",
+  "engines": {
+    "node": ">=24.0.0 <25"
   },
-  "dependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "motion": "^12.0.0",
-    "@react-three/fiber": "^9.0.0",
-    "@react-three/drei": "^10.0.0",
-    "three": "^0.180.0",
-    "lucide-react": "^0.468.0",
-    "qrcode": "^1.5.4",
-    "@fontsource/inter": "^5.2.0",
-    "@fontsource/space-grotesk": "^5.2.0",
-    "@fontsource/jetbrains-mono": "^5.2.0"
+  "scripts": {
+    "dev": "turbo dev --filter=@garant/web --filter=@garant/verifier --filter=@garant/landing",
+    "dev:web": "pnpm --filter @garant/web dev",
+    "dev:verifier": "pnpm --filter @garant/verifier dev",
+    "dev:landing": "pnpm --filter @garant/landing dev",
+    "lint": "eslint apps packages tests",
+    "typecheck": "turbo typecheck && tsc --noEmit -p tsconfig.json",
+    "build": "turbo build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm build"
   },
   "devDependencies": {
-    "vite": "^7.0.0",
-    "@vitejs/plugin-react": "^5.0.0",
-    "typescript": "^5.9.0",
-    "tailwindcss": "^4.0.0",
-    "@tailwindcss/vite": "^4.0.0",
-    "vitest": "^3.0.0",
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0",
-    "@types/three": "^0.180.0",
-    "@types/qrcode": "^1.5.5",
-    "@types/node": "^22.0.0"
-  }
+    "turbo": "2.11.8",
+    "typescript": "5.9.3",
+    "eslint": "9.39.1",
+    "@eslint/js": "9.39.1",
+    "typescript-eslint": "8.70.1",
+    "eslint-config-next": "16.4.0",
+    "vitest": "5.0.4",
+    "@types/node": "24.10.0"
+  },
+  "type": "module"
 }

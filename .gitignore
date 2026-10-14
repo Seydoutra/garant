@@ -1,3 +1,13 @@
 node_modules/
 dist/
-.env.local
+.next/
+.turbo/
+*.tsbuildinfo
+.env
+.env.*
+!.env.example
+coverage/
+playwright-report/
+test-results/
+
+**/next-env.d.ts
