@@ -27,7 +27,9 @@ export async function proxy(request: NextRequest) {
     await client.auth.getClaims();
   }
   response.headers.set("Cache-Control", "private, no-store");
-  response.headers.set("Referrer-Policy", "no-referrer");
+  // Preserve Origin on same-site HTML form POSTs; no-referrer makes it null.
+  // Cross-site navigation still receives no Referer.
+  response.headers.set("Referrer-Policy", "same-origin");
   response.headers.set("X-Content-Type-Options", "nosniff");
   response.headers.set("X-Frame-Options", "DENY");
   return response;
