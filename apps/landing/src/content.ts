@@ -158,7 +158,7 @@ export const content = {
   eyebrow: "INFRASTRUCTURE DE CONFIANCE DOCUMENTAIRE",
   hero: "Chaque document institutionnel mérite une preuve de confiance.",
   description:
-    "GARANT prépare une nouvelle chaîne de confiance pour les diplômes, attestations et certificats. Une origine vérifiable, un statut consultable et des dispositifs adaptés aux documents imprimés.",
+    "GARANT prépare une chaîne de confiance pour les documents des organisations publiques et privées. Une origine vérifiable, un statut consultable et des dispositifs adaptés aux documents imprimés.",
   indicators: [
     "Signature numérique",
     "Vérification par QR code",

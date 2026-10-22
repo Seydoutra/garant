@@ -53,3 +53,10 @@ Projet existant désigné : `knseyxmyfhjqmiroufbm`. L'accès via le connecteur a
 L'accès navigateur au projet `knseyxmyfhjqmiroufbm` a permis l'inspection puis l'application des deux migrations existantes, sans reset. Résultats SQL distants : 22 tables public/private, zéro sans RLS, quatre buckets privés, deux migrations enregistrées. Vérification indépendante : aucun GRANT métier anonyme, aucune écriture directe authenticated, aucun bucket public ; utilisateurs Auth inchangés (0).
 
 Le refus du connecteur MCP demeure, mais ne décrit plus l'état de la base : les migrations sont réellement appliquées via le dashboard autorisé. Auth/MFA réels, raccordement de la clé publishable et premier parcours d'émission restent non validés. Voir `REMOTE_MIGRATION_RECEIPT.md`.
+
+
+## Raccordement local et nouvelle vitrine
+
+La clé publishable de la cible est maintenant configurée localement, hors Git. Auth distant répond et refuse des identifiants invalides ; aucune connexion positive ni TOTP réel validé. Voir `AUTH_LIVE_VALIDATION.md` pour les résultats et blocages exacts.
+
+La vitrine a été reconstruite selon la structure Lamosa demandée, avec visuels propres et six dispositifs illustratifs. Contrôles desktop/mobile et premières interactions exécutés ; voir `LANDING_REDESIGN.md`. La refonte reste sur la branche bêta, sans publication publique.
