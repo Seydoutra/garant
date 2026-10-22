@@ -43,3 +43,13 @@ Les six protections F1/F2/F4/F5/F6/F8 restent obligatoires. Les packages de cryp
 Voir `AUDIT_V3.md`, `VALIDATION_V3.md`, `SUPABASE_SETUP.md`, `DATABASE_SCHEMA.md`, `API.md`, `openapi.json`, `SECURITY_CHECKLIST.md`. Aucune donnée de démonstration n'a été injectée dans une base distante. Les fixtures des tests sont isolées et ne sont pas affichées dans le dashboard.
 
 Validation finale locale V3 : `pnpm lint` exit 0, `pnpm typecheck` exit 0 (9 packages et contrôle racine), `pnpm test` **38 tests réussis dans 4 fichiers, dont 26 tests PostgreSQL/RLS**, `pnpm build` exit 0 (9 builds). `git diff --check` réussi. Aucun succès distant Auth, Storage ou PAdES n'est déduit de ces résultats.
+
+## Cible Supabase précisée par le propriétaire
+
+Projet existant désigné : `knseyxmyfhjqmiroufbm`. L'accès via le connecteur actuel est refusé ; la connexion au compte propriétaire doit être rétablie. La demande initiale de création est remplacée par l'inspection de cette cible existante. Schéma et environnement de ce projet non encore vérifiés ; aucune migration distante.
+
+## Migrations distantes appliquées sur la cible autorisée
+
+L'accès navigateur au projet `knseyxmyfhjqmiroufbm` a permis l'inspection puis l'application des deux migrations existantes, sans reset. Résultats SQL distants : 22 tables public/private, zéro sans RLS, quatre buckets privés, deux migrations enregistrées. Vérification indépendante : aucun GRANT métier anonyme, aucune écriture directe authenticated, aucun bucket public ; utilisateurs Auth inchangés (0).
+
+Le refus du connecteur MCP demeure, mais ne décrit plus l'état de la base : les migrations sont réellement appliquées via le dashboard autorisé. Auth/MFA réels, raccordement de la clé publishable et premier parcours d'émission restent non validés. Voir `REMOTE_MIGRATION_RECEIPT.md`.

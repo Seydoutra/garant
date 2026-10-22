@@ -1,10 +1,18 @@
 # Supabase GARANT — 22 octobre 2026
 
-## État constaté
+## Projet distant vérifié et migré
 
-Le connecteur Supabase répond. Les listes des organisations et projets ont été consultées. Aucun projet nommé GARANT n'existe dans le compte accessible. Aucun autre projet n'a été ouvert ou modifié. Aucun projet, branche Supabase, secret distant ou migration distante n'a été créé. Aucun coût n'a été engagé.
+Cible autorisée : `knseyxmyfhjqmiroufbm`, organisation technique `psbojazhqdwdnwpapczp` (Smartsell), région `eu-west-1` (Irlande), instance Nano du plan Free. Le nom affiché dans le dashboard est le nom initial du projet ; il n'a pas été modifié. URL API vérifiée dans le dashboard : `https://knseyxmyfhjqmiroufbm.supabase.co`.
 
-Une demande de choix de l'organisation de l’organisation accessible du compte connecté et de la région `eu-west-1` a été adressée au propriétaire, avec une limite de coût supplémentaire de 0 $. Elle reste sans réponse à la rédaction de ce rapport. Ne pas prendre le silence pour une autorisation. Après réponse : obtenir le coût pour cette organisation, présenter le devis et demander une autorisation explicite si le coût n'est pas nul, puis créer uniquement GARANT. Si la gratuité ou le quota sont indisponibles, ne pas créer le projet.
+Le connecteur MCP de ce chat reste associé à l'ancien compte et refuse cette référence. L'application Codex n'est pas contrôlable par l'outil de prise en main. L'accès a été obtenu par la session Supabase déjà authentifiée de Chrome, sur la référence exacte désignée par le propriétaire, sans changer de mot de passe ni créer d'accès privilégié.
+
+Inspection avant migration : aucune table dans public/private, aucun bucket, zéro utilisateur Auth, aucune table d'historique Supabase. Les deux migrations déjà versionnées et testées ont été appliquées dans l'éditeur SQL, dans une transaction avec précontrôle d'absence de tables/historique, lock_timeout 5 s et statement_timeout 60 s. Le bundle a été exécuté auparavant sur PostgreSQL PGlite isolé. Aucun reset, suppression ou remplacement de donnée existante.
+
+Résultat distant : **22 tables applicatives, toutes sous RLS ; quatre buckets privés ; deux migrations enregistrées**. L'historique `supabase_migrations.schema_migrations` reprend les versions/noms et SQL des fichiers existants, avec droits révoqués à PUBLIC/anon/authenticated et RLS activé via le dashboard. Une future utilisation CLI doit comparer cet historique avant tout db push, sans réappliquer les deux fichiers.
+
+Contrôles indépendants après application : zéro GRANT métier anonyme, zéro GRANT INSERT/UPDATE/DELETE direct à authenticated, zéro bucket public, historique RLS actif, zéro utilisateur Auth inchangé. Les tests multi-organisations restent les tests locaux ; aucun parcours Auth/TOTP réel n'est déduit de ces contrôles SQL.
+
+Voir `REMOTE_MIGRATION_RECEIPT.md`. L'application locale n'a pas encore reçu de clé publishable pour cette cible. La connexion métier de bout en bout, les URL Auth distantes et les tests de session restent à terminer. Aucune clé secrète récupérée, aucune nouvelle dépense engagée, aucun autre projet modifié et aucun déploiement public.
 
 ## Configuration locale
 

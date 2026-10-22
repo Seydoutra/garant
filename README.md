@@ -4,7 +4,7 @@ Monorepo pnpm/Turborepo conservé. La vitrine institutionnelle publiée se trouv
 
 ## État démontré
 
-Socle SQL transversal avec RLS, versions et approbations testées sur PostgreSQL isolé. Interfaces Auth/SSR/TOTP, dashboard et formulaires métier reliés au SDK Supabase et aux RPC. **Aucun projet Supabase GARANT n'est encore connecté** : le choix de création reste en attente, et Docker/Podman est absent pour exécuter la pile locale complète. L'inscription, la connexion et le TOTP réels ne sont donc pas encore validés.
+Socle SQL transversal avec RLS, versions et approbations testées sur PostgreSQL isolé. Interfaces Auth/SSR/TOTP, dashboard et formulaires métier reliés au SDK Supabase et aux RPC. **Les deux migrations sont maintenant appliquées au projet autorisé `knseyxmyfhjqmiroufbm`** : 22 tables sous RLS et quatre buckets privés contrôlés dans le dashboard. Le raccordement de l’application par clé publishable et les tests Auth/TOTP réels restent à terminer. Docker/Podman est absent pour exécuter la pile locale complète.
 
 Aucune émission sécurisée complète, signature PDF PAdES indépendante, photo, SMS ou révocation vérifiable n'est annoncée comme opérationnelle. Le passage à l'état émis reste bloqué. Le premier jalon V3 n'est pas atteint. Les six protections restent dans la feuille de route.
 
