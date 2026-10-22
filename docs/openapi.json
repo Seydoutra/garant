@@ -1,0 +1,571 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "GARANT V3 — API interne à session",
+    "version": "0.3.0-dev",
+    "description": "Contrat local. Aucun client externe provisionné ni parcours d’émission actif."
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:3000"
+    }
+  ],
+  "paths": {
+    "/api/v1/organizations": {
+      "post": {
+        "operationId": "createOrganization",
+        "summary": "Interne : Organization",
+        "security": [
+          {
+            "supabaseSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Organization"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Créé (organisations, types et brouillons)"
+          },
+          "200": {
+            "description": "Succès (habilitations, délégations, approbations)"
+          },
+          "400": {
+            "description": "Entrée ou opération refusée"
+          },
+          "401": {
+            "description": "Session absente ou expirée"
+          },
+          "403": {
+            "description": "Origine ou MFA refusé"
+          },
+          "503": {
+            "description": "Configuration ou base indisponible"
+          }
+        }
+      },
+      "get": {
+        "summary": "Lister les organisations autorisées",
+        "security": [
+          {
+            "supabaseSession": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Organisations filtrées par RLS"
+          },
+          "401": {
+            "description": "Session requise"
+          },
+          "403": {
+            "description": "MFA requise"
+          },
+          "503": {
+            "description": "Indisponible"
+          }
+        }
+      }
+    },
+    "/api/v1/memberships": {
+      "post": {
+        "operationId": "createMembership",
+        "summary": "Interne : Membership",
+        "security": [
+          {
+            "supabaseSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Membership"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Créé (organisations, types et brouillons)"
+          },
+          "200": {
+            "description": "Succès (habilitations, délégations, approbations)"
+          },
+          "400": {
+            "description": "Entrée ou opération refusée"
+          },
+          "401": {
+            "description": "Session absente ou expirée"
+          },
+          "403": {
+            "description": "Origine ou MFA refusé"
+          },
+          "503": {
+            "description": "Configuration ou base indisponible"
+          }
+        }
+      }
+    },
+    "/api/v1/delegations": {
+      "post": {
+        "operationId": "createDelegation",
+        "summary": "Interne : Delegation",
+        "security": [
+          {
+            "supabaseSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Delegation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Créé (organisations, types et brouillons)"
+          },
+          "200": {
+            "description": "Succès (habilitations, délégations, approbations)"
+          },
+          "400": {
+            "description": "Entrée ou opération refusée"
+          },
+          "401": {
+            "description": "Session absente ou expirée"
+          },
+          "403": {
+            "description": "Origine ou MFA refusé"
+          },
+          "503": {
+            "description": "Configuration ou base indisponible"
+          }
+        }
+      }
+    },
+    "/api/v1/document-types": {
+      "post": {
+        "operationId": "createDocumentType",
+        "summary": "Interne : DocumentType",
+        "security": [
+          {
+            "supabaseSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DocumentType"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Créé (organisations, types et brouillons)"
+          },
+          "200": {
+            "description": "Succès (habilitations, délégations, approbations)"
+          },
+          "400": {
+            "description": "Entrée ou opération refusée"
+          },
+          "401": {
+            "description": "Session absente ou expirée"
+          },
+          "403": {
+            "description": "Origine ou MFA refusé"
+          },
+          "503": {
+            "description": "Configuration ou base indisponible"
+          }
+        }
+      }
+    },
+    "/api/v1/documents": {
+      "post": {
+        "operationId": "createDraft",
+        "summary": "Interne : Draft",
+        "security": [
+          {
+            "supabaseSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Draft"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Créé (organisations, types et brouillons)"
+          },
+          "200": {
+            "description": "Succès (habilitations, délégations, approbations)"
+          },
+          "400": {
+            "description": "Entrée ou opération refusée"
+          },
+          "401": {
+            "description": "Session absente ou expirée"
+          },
+          "403": {
+            "description": "Origine ou MFA refusé"
+          },
+          "503": {
+            "description": "Configuration ou base indisponible"
+          }
+        }
+      }
+    },
+    "/api/v1/approvals": {
+      "post": {
+        "operationId": "createApproval",
+        "summary": "Interne : Approval",
+        "security": [
+          {
+            "supabaseSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Approval"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Créé (organisations, types et brouillons)"
+          },
+          "200": {
+            "description": "Succès (habilitations, délégations, approbations)"
+          },
+          "400": {
+            "description": "Entrée ou opération refusée"
+          },
+          "401": {
+            "description": "Session absente ou expirée"
+          },
+          "403": {
+            "description": "Origine ou MFA refusé"
+          },
+          "503": {
+            "description": "Configuration ou base indisponible"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "supabaseSession": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "sb-<project-ref>-auth-token",
+        "description": "Cookie SSR Supabase ; le nom et le découpage effectifs sont gérés par @supabase/ssr."
+      }
+    },
+    "schemas": {
+      "Organization": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 180
+          },
+          "acronym": {
+            "type": "string",
+            "maxLength": 30
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "public",
+              "private",
+              "association",
+              "other"
+            ]
+          },
+          "country": {
+            "type": "string",
+            "pattern": "^[A-Z]{2}$"
+          },
+          "city": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          }
+        },
+        "required": [
+          "name",
+          "category",
+          "country",
+          "city"
+        ]
+      },
+      "Membership": {
+        "type": "object",
+        "properties": {
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "organization_admin",
+              "approver",
+              "issuer",
+              "reader"
+            ]
+          }
+        },
+        "required": [
+          "organizationId",
+          "userId",
+          "role"
+        ]
+      },
+      "Delegation": {
+        "type": "object",
+        "properties": {
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "documentTypeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "until": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "canApprove": {
+            "type": "boolean"
+          },
+          "canIssue": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "organizationId",
+          "userId",
+          "documentTypeId",
+          "until",
+          "canApprove",
+          "canIssue"
+        ]
+      },
+      "DocumentType": {
+        "type": "object",
+        "properties": {
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "code": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]{1,60}$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "schema": {
+            "type": "object",
+            "required": [
+              "fields"
+            ],
+            "properties": {
+              "fields": {
+                "type": "object",
+                "minProperties": 1,
+                "maxProperties": 30,
+                "additionalProperties": {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "required"
+                  ],
+                  "properties": {
+                    "type": {
+                      "const": "string"
+                    },
+                    "required": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "confidentiality": {
+            "type": "string",
+            "enum": [
+              "private",
+              "public_summary"
+            ]
+          }
+        },
+        "required": [
+          "organizationId",
+          "code",
+          "name",
+          "schema"
+        ]
+      },
+      "Draft": {
+        "type": "object",
+        "properties": {
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "typeVersionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "reference": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "content": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string",
+              "maxLength": 5000
+            }
+          }
+        },
+        "required": [
+          "organizationId",
+          "typeVersionId",
+          "reference",
+          "content"
+        ]
+      },
+      "Approval": {
+        "type": "object",
+        "properties": {
+          "organizationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "versionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedHash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        },
+        "required": [
+          "organizationId",
+          "versionId",
+          "expectedHash"
+        ]
+      }
+    }
+  }
+}

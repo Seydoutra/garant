@@ -16,17 +16,20 @@
     "build": "turbo build",
     "test": "vitest run",
     "test:watch": "vitest",
-    "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm build"
+    "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm build",
+    "test:db": "vitest run tests/database/rls.test.ts"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "0.5.11",
+    "@eslint/js": "9.39.1",
+    "@types/node": "24.10.0",
+    "eslint": "9.39.1",
+    "eslint-config-next": "16.4.0",
+    "supabase": "2.121.0",
     "turbo": "2.11.8",
     "typescript": "5.9.3",
-    "eslint": "9.39.1",
-    "@eslint/js": "9.39.1",
     "typescript-eslint": "8.70.1",
-    "eslint-config-next": "16.4.0",
-    "vitest": "5.0.4",
-    "@types/node": "24.10.0"
+    "vitest": "5.0.4"
   },
   "type": "module"
 }

@@ -1,70 +1,40 @@
-# GARANT Socle MVP
+# GARANT V3 — application documentaire en développement
 
-Monorepo local du MVP GARANT, tâche 01. Les interfaces d’administration et de vérification sont des shells **non connectés**. Aucune authentification, connexion métier à la base, signature, génération PDF, révocation ou émission SMS n’est implémentée à cette étape.
+Monorepo pnpm/Turborepo conservé. La vitrine institutionnelle publiée se trouve dans `apps/landing` ; l'application Next dans `apps/web` est développée séparément sur `develop/garant-v3-beta`, **sans déploiement public de V3**.
 
-La vitrine existante est conservée dans `apps/landing`, avec sa démonstration fictive et une nouvelle présentation institutionnelle. Ses aperçus de dispositifs de sécurité représentent des capacités prévues, pas une application de certification en production.
+## État démontré
 
-## Prérequis
+Socle SQL transversal avec RLS, versions et approbations testées sur PostgreSQL isolé. Interfaces Auth/SSR/TOTP, dashboard et formulaires métier reliés au SDK Supabase et aux RPC. **Aucun projet Supabase GARANT n'est encore connecté** : le choix de création reste en attente, et Docker/Podman est absent pour exécuter la pile locale complète. L'inscription, la connexion et le TOTP réels ne sont donc pas encore validés.
 
-Node 24, pnpm 11.25.0. PostgreSQL, Docker et les identifiants Supabase ou Nimba ne sont pas nécessaires à la tâche 01. Le profil souverain complet, Auth, Storage et Docker restent à implémenter dans leurs tâches dédiées ; un PostgreSQL seul ne les remplace pas.
+Aucune émission sécurisée complète, signature PDF PAdES indépendante, photo, SMS ou révocation vérifiable n'est annoncée comme opérationnelle. Le passage à l'état émis reste bloqué. Le premier jalon V3 n'est pas atteint. Les six protections restent dans la feuille de route.
 
-## Installation et vérification
+## Démarrage
+
+Node 24, pnpm 11.25.0.
 
 ```sh
-corepack enable
-corepack prepare pnpm@11.25.0 --activate
 pnpm install --frozen-lockfile
 pnpm lint
 pnpm typecheck
 pnpm test
 pnpm build
+pnpm dev:web
 ```
 
-`pnpm test` exécute les tests du socle et les trois scénarios fictifs de la landing. Les suites futures crypto, RLS, PDF, SMS et bout en bout ne sont pas disponibles. Elles ne sont ni simulées ni annoncées comme réussies.
+L'application écoute sur http://127.0.0.1:3000. Sans configuration elle présente un écran explicite et ne simule aucun compte. Copier `.env.example` vers `apps/web/.env.local` après préparation du projet GARANT, sans committer les valeurs. Suivre [la configuration Supabase](docs/SUPABASE_SETUP.md).
 
-## Démarrer localement
+`pnpm test:db` exécute les migrations et tests SQL sur PGlite isolé. Ce moteur teste RLS, pas GoTrue ni le transport Storage. La pile complète utilise la CLI officielle (`pnpm exec supabase start`) avec Docker/Podman.
 
-```sh
-pnpm dev:web       # Administration : http://127.0.0.1:3000
-pnpm dev:verifier  # Shell public : http://127.0.0.1:3001/v
-pnpm dev:landing   # Landing : URL affichée par Vite
-```
+## Organisation
 
-`pnpm dev` lance les trois applications UI ensemble. Le worker et le publisher ne sont pas lancés. Leurs scripts `start` échouent explicitement avec un code 1 tant que les tâches correspondantes ne sont pas implémentées.
+- `apps/web` : Next App Router, Auth SSR, MFA et première tranche documentaire.
+- `apps/landing` : vitrine Vite préservée, démonstration fictive et six aperçus explicitement illustratifs.
+- `apps/verifier` : shell autonome Vite `/v`, sans vérification cryptographique active.
+- `apps/worker`, `apps/publisher` : shells qui refusent le démarrage opérationnel.
+- `packages/db` : projection Drizzle du cœur ; migrations SQL officielles dans `supabase/migrations`.
+- `packages/seal`, `packages/pdf`, `packages/shortcode` : contrats non opérationnels conservés.
+- `docs` : audit, décisions, résultats et limites ; `garant-mvp-spec` : prompts sources V1/V3.
 
-La route `/v` de Next indique le lien vers le shell autonome local. La configuration de reverse proxy entre domaines fait partie du déploiement futur.
+La CI exécute lint, types, tests et builds. Le workflow Pages ne publie la landing que sur `main` ou déclenchement manuel. Aucun déploiement V3 n'est lancé sur la branche de développement.
 
-## Arborescence
-
-```text
-apps/
-  landing/       Vitrine Vite préservée et démonstration fictive
-  web/           Next.js App Router, administration non connectée
-  verifier/      Shell public Vite TypeScript, route /v
-  worker/        Shell Node TypeScript non opérationnel
-  publisher/     Shell Node TypeScript non opérationnel
-packages/
-  seal/          Contrat non implémenté
-  pdf/           Contrat non implémenté
-  shortcode/     Contrat non implémenté
-  db/            Dépendances Drizzle/pg, aucune connexion
- tests/          Tests réels du socle
- docs/           Décisions et avancement
- garant-mvp-spec/ Références disponibles et tâche 01
-```
-
-## Configuration
-
-`.env.example` décrit les variables attendues à terme, sans valeurs secrètes. Seul `APP_MODE=shell` est utilisé dans cette tâche. Une autre valeur est rejetée par Zod. Aucune clé privée n’est requise pour développer ce socle.
-
-Les contenus de la landing et ses paramètres sont dans `apps/landing/src/content.ts`. WhatsApp, e-mail et liens légaux restent non configurés. Les paramètres de la future plateforme ne sont pas connectés à cette vitrine.
-
-## CI et publication
-
-`.github/workflows/ci.yml` installe avec verrou, puis exécute lint, typecheck, tests et builds. Aucune production n’est contactée. Le workflow Pages publie uniquement `apps/landing/dist` à chaque push sur `main`, ou sur déclenchement manuel. La mise à jour GitHub et la publication de la landing institutionnelle ont été demandées le 14 octobre 2026, après la validation locale de la tâche 01. Site : https://seydoutra.github.io/garant/. Les autres applications restent des shells non déployés.
-
-## État exact
-
-Voir `docs/IMPLEMENTATION_STATUS.md` et `docs/VALIDATION.md`. Le dossier de spécification complète évoqué dans le prompt n’était pas présent intégralement au début de cette tâche. Les sources techniques originales et les références disponibles sont conservées ; elles ne sont pas présentées comme une migration validée ou un audit.
-
-La tâche 02 ne doit être entreprise que sur instruction. Elle nécessitera une migration candidate et une base isolée pour ses contrôles.
+[Avancement exact](docs/IMPLEMENTATION_STATUS.md) · [Validation](docs/VALIDATION_V3.md) · [Modèle](docs/DATABASE_SCHEMA.md) · [API](docs/API.md) · [Sécurité](docs/SECURITY_CHECKLIST.md)

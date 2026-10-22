@@ -34,3 +34,17 @@
 Sources : [COSE RFC 9052](https://www.rfc-editor.org/rfc/rfc9052.html), [Crockford](https://www.crockford.com/base32), [signataire P12 officiel](https://github.com/vbuch/node-signpdf/blob/develop/packages/signer-p12/src/P12Signer.js), [SMS Gateway Android](https://docs.sms-gate.app/features/webhooks/), [Supabase RLS](https://supabase.com/docs/guides/database/postgres/row-level-security).
 
 - Le build Next Turbopack a réussi, mais le serveur de développement a rencontré `unable to start FSEvent stream` sur cet hôte. Le script de développement utilise donc le mode Webpack officiel et le polling Watchpack, sans modifier le runtime de production. Les types des routes sont générés par `next typegen` avant le contrôle TypeScript pour une CI propre sans dossier `.next` préexistant.
+
+## 22 octobre 2026 — V3
+
+- V3 prime sur les références spécialisées de V1 : types documentaires transversaux et contenus structurés, aucune spécialisation diplôme dans le nouveau socle.
+- Développement sur `develop/garant-v3-beta`, sans déploiement public, sans écrasement de migration. La vitrine et son workflow de publication de main sont préservés.
+- Aucun projet Supabase GARANT visible. Aucun autre projet inspecté au-delà de la découverte par liste ; création en attente de l'organisation/région confirmée et du contrôle de coût. Aucune dépense ni mutation distante.
+- Auth utilise SSR 0.12.7 et supabase-js 2.118.0, cookies par requête et proxy Next 16, identité confirmée via `getUser`. Aucune clé privilégiée dans le chemin utilisateur. Cette intégration est compilée mais pas encore validée avec GoTrue réel.
+- Première tranche : Data API/RPC Supabase avec le JWT utilisateur pour conserver RLS de bout en bout sans connexion PostgreSQL propriétaire. Drizzle reste présent avec la projection du cœur du modèle ; une couche d'accès PostgreSQL portable complète reste à fournir et tester pour le profil souverain. Cette adaptation réduit la surface de contournement RLS pendant l'intégration Auth et n'est pas présentée comme une implémentation souveraine achevée.
+- Les écritures métier n'ont pas de GRANT direct côté utilisateur. Les RPC SECURITY DEFINER sont des frontières explicites, documentées et testées : recherche vide, identité Auth, activité de session, rôle stocké en base et TOTP récent. Leurs droits EXECUTE sont limités à authenticated. Les helpers privilégiés restent privés.
+- Les sessions inactives sont verrouillées en SQL, sans réactivation du même session_id, en complément des options d'expiration Supabase dont la disponibilité dépend du plan. Les lectures privées demandent AAL2 ; les mutations demandent un AMR TOTP de moins de cinq minutes.
+- Les approbations portent sur la représentation JSONB PostgreSQL hachée en SHA-256, une délégation par type et une personne distincte. Une révision crée une nouvelle version, non approuvée. Aucun JSON canonique interopérable n'est implicitement revendiqué.
+- Un trigger refuse toute transition vers « issued » : pas de contournement temporaire au motif de débloquer une démo. Activation future seulement avec le moteur de preuves, PDF signé et validation PAdES indépendante.
+- Les tests SQL emploient PGlite isolé faute de Docker sur cet hôte. Ils vérifient réellement PostgreSQL/RLS ; ils ne remplacent pas les tests de Supabase Auth, PostgREST, Storage ou du navigateur connecté.
+- Les buckets sont privés et leurs lectures liées aux enregistrements autorisés. Aucun upload ni téléchargement signé n'est activé avant le pipeline MIME/empreinte et les signatures réelles.
