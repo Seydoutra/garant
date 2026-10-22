@@ -60,3 +60,8 @@ Le refus du connecteur MCP demeure, mais ne décrit plus l'état de la base : le
 La clé publishable de la cible est maintenant configurée localement, hors Git. Auth distant répond et refuse des identifiants invalides ; aucune connexion positive ni TOTP réel validé. Voir `AUTH_LIVE_VALIDATION.md` pour les résultats et blocages exacts.
 
 La vitrine a été reconstruite selon la structure Lamosa demandée, avec visuels propres et six dispositifs illustratifs. Contrôles desktop/mobile et premières interactions exécutés ; voir `LANDING_REDESIGN.md`. La refonte reste sur la branche bêta, sans publication publique.
+
+
+## Validation Auth réelle terminée
+
+Les comptes confirmés de test ont été créés sur `knseyxmyfhjqmiroufbm`. Connexion et TOTP GoTrue réels validés, avec passage aal1 → aal2 et `my_access.recentMfa = true`. Le parcours HTTP du build Next raccordé à cette cible est validé : refus anonyme et mauvaise origine, connexion, MFA obligatoire, mauvais/bon code, dashboard, déconnexion et rejeu refusé d’un ancien cookie. Les deux identités techniques ont ensuite été désactivées. Aucun rôle métier ni administrateur attribué. Voir `AUTH_LIVE_VALIDATION.md` pour les limites, notamment l’absence de test de scan mobile du QR et l’application uniquement locale.

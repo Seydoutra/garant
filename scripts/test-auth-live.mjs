@@ -1,7 +1,7 @@
 // Opt-in GARANT integration harness. Credentials and TOTP material remain in memory.
 // Never run in CI or against another project. Confirmation is scoped to a test account.
 import { createRequire } from "node:module";
-import { readFile } from "node:fs/promises";
+import { readFile, unlink } from "node:fs/promises";
 import { randomBytes, randomUUID, createHmac } from "node:crypto";
 import { createInterface } from "node:readline";
 const require = createRequire(
@@ -19,16 +19,23 @@ if (
   env.APP_ENV !== "development"
 )
   throw Error("GARANT development target required");
-const timedFetch = (input, init) => fetch(input, {
-  ...init, signal: AbortSignal.timeout(20000),
-});
+const timedFetch = (input, init) =>
+  fetch(input, {
+    ...init,
+    signal: AbortSignal.timeout(20000),
+  });
 const client = createClient(
   env.NEXT_PUBLIC_SUPABASE_URL,
   env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
-  { auth: { persistSession: false, autoRefreshToken: false }, global: { fetch: timedFetch } },
+  {
+    auth: { persistSession: false, autoRefreshToken: false },
+    global: { fetch: timedFetch },
+  },
 );
 const credentials = {
-  email: process.env.GARANT_LIVE_TEST_EMAIL ?? `garant-e2e-${randomUUID().slice(0, 8)}@example.com`,
+  email:
+    process.env.GARANT_LIVE_TEST_EMAIL ??
+    `garant-e2e-${randomUUID().slice(0, 8)}@example.com`,
   password: randomBytes(32).toString("base64url"),
 };
 let factor, secret;
@@ -67,6 +74,33 @@ async function command(action) {
       signupDisabled: data.disable_signup,
       autoConfirm: data.mailer_autoconfirm,
     });
+  } else if (action === "provision") {
+    const keyPath = "/private/tmp/garant-live-admin-key";
+    let key;
+    try {
+      key = (await readFile(keyPath, "utf8")).trim();
+    } finally {
+      await unlink(keyPath).catch(() => {});
+    }
+    const admin = createClient(env.NEXT_PUBLIC_SUPABASE_URL, key, {
+      auth: { persistSession: false, autoRefreshToken: false },
+      global: { fetch: timedFetch },
+    });
+    credentials.email = `garant-e2e-${randomUUID().slice(0, 8)}@smartsell.pro`;
+    const { data, error } = await admin.auth.admin.createUser({
+      ...credentials,
+      email_confirm: true,
+      app_metadata: { garant_test_account: true },
+    });
+    key = undefined;
+    report("provision", {
+      ok: !error,
+      code: error?.code ?? null,
+      userId: data.user?.id ?? null,
+      errorName: error?.name ?? null,
+      status: error?.status ?? null,
+      confirmed: !!data.user?.email_confirmed_at,
+    });
   } else if (action === "signup") {
     const { data, error } = await client.auth.signUp(credentials);
     report("signup", {
@@ -97,7 +131,10 @@ async function command(action) {
     const isolated = createClient(
       env.NEXT_PUBLIC_SUPABASE_URL,
       env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
-      { auth: { persistSession: false, autoRefreshToken: false }, global: { fetch: timedFetch } },
+      {
+        auth: { persistSession: false, autoRefreshToken: false },
+        global: { fetch: timedFetch },
+      },
     );
     const { error } = await isolated.auth.signInWithPassword({
       email: credentials.email,
@@ -155,7 +192,7 @@ async function command(action) {
   } else throw Error("Unknown command");
 }
 process.stdout.write(
-  "Ready. Commands: status signup login bad-password enroll bad-totp verify logout results exit\n",
+  "Ready. Commands: status provision signup login bad-password enroll bad-totp verify logout results exit\n",
 );
 const input = createInterface({ input: process.stdin });
 for await (const line of input) {
