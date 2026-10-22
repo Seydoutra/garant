@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { EmailLinkSession } from "@/components/auth/email-link-session";
 export const metadata: Metadata = {
   title: "GARANT — Espace organisations",
   description: "Application GARANT de préparation et suivi documentaire.",
@@ -12,7 +13,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
-      <body>{children}</body>
+      <body>
+        <EmailLinkSession />
+        {children}
+      </body>
     </html>
   );
 }
