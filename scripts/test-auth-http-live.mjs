@@ -18,7 +18,13 @@ assert.equal(
   "https://knseyxmyfhjqmiroufbm.supabase.co",
 );
 assert.equal(env.APP_ENV, "development");
-const origin = "http://127.0.0.1:3002";
+const origin = process.env.GARANT_TEST_APP_URL ?? "http://127.0.0.1:3002";
+assert.ok(
+  ["http://127.0.0.1:3002", "https://garant-app-one.vercel.app"].includes(
+    origin,
+  ),
+  "Explicit GARANT test origin required",
+);
 const results = [];
 function report(name, data = {}) {
   results.push({ name, ...data });

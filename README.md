@@ -38,3 +38,11 @@ L'application écoute sur http://127.0.0.1:3000. Sans configuration elle présen
 La CI exécute lint, types, tests et builds. Le workflow Pages ne publie la landing que sur `main` ou déclenchement manuel. Aucun déploiement V3 n'est lancé sur la branche de développement.
 
 [Avancement exact](docs/IMPLEMENTATION_STATUS.md) · [Validation](docs/VALIDATION_V3.md) · [Modèle](docs/DATABASE_SCHEMA.md) · [API](docs/API.md) · [Sécurité](docs/SECURITY_CHECKLIST.md)
+
+
+## Liens publics — bêta publiée
+
+- Vitrine : https://seydoutra.github.io/garant/
+- Application : https://garant-app-one.vercel.app/connexion
+
+L’inscription ne donne aucun rôle métier. La confirmation email et la double authentification sont requises ; le rattachement à une organisation relève d’une habilitation. L’émission signée de bout en bout reste en développement. Détails de publication et limites : `docs/PUBLIC_DEPLOYMENT.md`.

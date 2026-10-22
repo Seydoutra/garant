@@ -57,3 +57,8 @@ Outils opt-in hors CI : `scripts/test-auth-live.mjs` et `scripts/test-auth-http-
 Le contrôle MCP du projet reste refusé ; le dashboard authentifié et l’API serveur ont permis les essais. Aucune migration supplémentaire n’était nécessaire. Les deux migrations distantes existantes sont documentées dans `REMOTE_MIGRATION_RECEIPT.md`.
 
 Vitrine publique existante vérifiée HTTP 200 : https://seydoutra.github.io/garant/ . Elle sert encore la version publiée le 14 octobre, et non la refonte bêta. L’application Next.js authentifiée reste locale ; aucun déploiement public supplémentaire n’a été effectué.
+
+
+## Publication ultérieure
+
+L’état « application uniquement locale » ci-dessus décrit le moment de ces tests positifs. La publication est désormais terminée sur `https://garant-app-one.vercel.app` ; les vérifications publiques et les limites de validation sont consignées dans `PUBLIC_DEPLOYMENT.md`.

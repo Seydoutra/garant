@@ -65,3 +65,8 @@ La vitrine a été reconstruite selon la structure Lamosa demandée, avec visuel
 ## Validation Auth réelle terminée
 
 Les comptes confirmés de test ont été créés sur `knseyxmyfhjqmiroufbm`. Connexion et TOTP GoTrue réels validés, avec passage aal1 → aal2 et `my_access.recentMfa = true`. Le parcours HTTP du build Next raccordé à cette cible est validé : refus anonyme et mauvaise origine, connexion, MFA obligatoire, mauvais/bon code, dashboard, déconnexion et rejeu refusé d’un ancien cookie. Les deux identités techniques ont ensuite été désactivées. Aucun rôle métier ni administrateur attribué. Voir `AUTH_LIVE_VALIDATION.md` pour les limites, notamment l’absence de test de scan mobile du QR et l’application uniquement locale.
+
+
+## Publication publique terminée
+
+La nouvelle vitrine remplace l’ancienne sur GitHub Pages. Le projet Vercel `garant-app` est créé dans l’espace confirmé et le build Next connecté à Supabase est déployé sur `https://garant-app-one.vercel.app`. Le formulaire public, la configuration Auth de production et les refus anonymes/CSRF/identifiants invalides sont vérifiés. Voir `PUBLIC_DEPLOYMENT.md` pour les identifiants du déploiement, la procédure reproductible et les limites des validations en production.
